@@ -2,6 +2,7 @@ const Engine = Matter.Engine
 const World = Matter.World  
 const Bodies = Matter.Bodies
 const Constraint = Matter.Constraint;
+const Render = Matter.Render;
 var myWorld,myEngine;
 var ground,plate,plate2;
 var box1,box2,box3,box4,box5,box6,box7,box8,box9,box10,box11,box12,box13,box14,box15,box16;
@@ -47,10 +48,14 @@ function setup() {
   box24 = new Box(630,160,30,40);
 
   box25 = new Box(600,120,30,40);
+  console.log(box25.body.speed)
 
   polygon = new Paper(50,450);
+  var render = Render.create({ element:document.body, engine:myEngine, options:{ width:800, height:600, wireframes:false } })
+  Render.run(render);
 
-  slingshot = new Slingshot(polygon.body,{x:50, y:450});
+  slingshot = new Slingshot(polygon.body,{x:50, y:425});
+  Engine.run(myEngine);
 }
 function draw() {
   background(0);
@@ -91,7 +96,7 @@ function draw() {
   box24.display();
   fill("red");
   box25.display();
-
+  text(mouseX + ","+mouseY,mouseX,mouseY);
   polygon.display();
 
   slingshot.display();
@@ -101,4 +106,9 @@ function mouseDragged(){
 }
 function mouseReleased(){
   slingshot.fly();
+}
+function keyPressed(){
+  if(keyCode === 32){
+      slingshot.attach(polygon.body);
+  }
 }
